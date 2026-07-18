@@ -34,7 +34,7 @@ resource "azurerm_databricks_workspace" "urban_mobility" {
 
   location = azurerm_resource_group.urban_mobility.location
 
-  sku = "premium"
+  sku = "trial"
 
   tags = local.common_tags
 
@@ -64,4 +64,32 @@ resource "azurerm_role_assignment" "databricks_storage_access" {
 
   principal_id = azurerm_databricks_access_connector.urban_mobility.identity[0].principal_id
 
+}
+
+resource "azurerm_data_factory" "urban_mobility" {
+  name                = var.data_factory_name
+  location            = azurerm_resource_group.urban_mobility.location
+  resource_group_name = azurerm_resource_group.urban_mobility.name
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  tags = local.common_tags
+
+  lifecycle {
+    ignore_changes = [
+      github_configuration
+    ]
+  }
+}
+
+resource "azurerm_storage_data_lake_gen2_filesystem" "landing" {
+  name               = var.landing_container_name
+  storage_account_id = azurerm_storage_account.data_lake.id
+}
+
+resource "azurerm_storage_data_lake_gen2_filesystem" "managed" {
+  name               = var.managed_container_name
+  storage_account_id = azurerm_storage_account.data_lake.id
 }
