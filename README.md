@@ -1,62 +1,84 @@
 # Urban Mobility Data Platform
 
-An end-to-end cloud data engineering and analytics project built using Azure, Databricks, Terraform, PySpark, Delta Lake and SQL on real urban mobility datasets.
+An end-to-end Azure data engineering platform that ingests, transforms, and models real world urban mobility data using Azure Data Factory, Azure Databricks, Azure Data Lake Storage Gen2, PySpark, Delta Lake, SQL, and Terraform.
 
-## Purpose
+The platform implements a Medallion Architecture (Bronze, Silver, Gold) to deliver scalable, analytics ready datasets for reporting and future data-driven applications.
 
-The goal of this repository is to design and build a modern cloud native data platform that ingests, transforms and analyses urban mobility datasets such as Dublin Bikes, public transport and weather data.
+## Project Overview
 
-This project focuses on Data Platform Engineering, Cloud Engineering and Analytics, while establishing a strong data foundation for future AI driven applications.
-
-## Objectives
-
-- Build cloud infrastructure using Azure and Terraform
-- Design and implement end-to-end data engineering pipelines
-- Build a Lakehouse architecture using Bronze, Silver and Gold layers
-- Transform and process data using PySpark
-- Generate analytical insights using SQL
-- Integrate multiple urban mobility datasets into a unified platform
-- Build an AI-ready data foundation for future expansion
+This project demonstrates the design and implementation of a modern Azure Lakehouse, combining infrastructure as code, automated data ingestion, distributed data processing, and layered data modelling. The platform integrates urban mobility datasets into a centralized analytics environment using Azure native services.
 
 ## Architecture
 
 ```text
-Data Sources
-(Dublin Bikes | Bus | Weather)
-
-        |
-
-Azure Storage
-
-        |
-
-Azure Databricks
-
-        |
-
-Bronze -> Silver -> Gold
-
-        |
-
-SQL Analytics
+        Data Sources
+             │
+             ▼
+   Azure Data Factory
+             │
+             ▼
+Azure Data Lake Storage Gen2
+             │
+             ▼
+ Azure Databricks (PySpark)
+             │
+             ▼
+     Bronze → Silver → Gold
+             │
+             ▼
+        SQL Analytics
 ```
+
+## Engineering Highlights
+
+- Provision cloud infrastructure using Terraform
+- Automate data ingestion with Azure Data Factory
+- Store and manage data in Azure Data Lake Storage Gen2
+- Process and transform data using Azure Databricks and PySpark
+- Implement a Medallion Architecture with Bronze, Silver, and Gold layers
+- Build curated analytical datasets using Delta Lake and SQL
+- Manage source control using Git and GitHub
 
 ## Technology Stack
 
-- Azure
-- Azure Storage Account
+### Cloud
+- Microsoft Azure
+- Azure Data Factory
 - Azure Databricks
-- Terraform
+- Azure Data Lake Storage Gen2
+
+### Data Engineering
 - PySpark
 - Delta Lake
 - SQL
-- Git & GitHub
+- Medallion Architecture
 
-## Data Source
-[DATA/GOC.IE](https://data.gov.ie/dataset/dublinbikes-api)
+### Infrastructure & DevOps
+- Terraform
+- Git
+- GitHub
 
+## Repository Structure
 
-## Long-Term Vision
+```text
+terraform/
+adf/
+databricks/
+├── bronze/
+├── silver/
+└── gold/
+docs/
+```
 
-Build a production-style cloud data platform that evolves from data engineering and analytics today into intelligent, AI-enabled data products in the future.
+## Data Sources
 
+Current:
+- Dublin Bikes API (Data.gov.ie)
+
+Planned:
+- Weather API
+- Additional urban mobility datasets
+
+## Roadmap
+
+Planned enhancements include CI/CD with GitHub Actions, Power BI reporting, additional data sources, monitoring, and advanced analytics to further evolve the platform.
