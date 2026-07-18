@@ -1,0 +1,101 @@
+{
+	"name": "Copy_DublinBikes_API_To_Landing",
+	"properties": {
+		"activities": [
+			{
+				"name": "PL_DublinBikes_API",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "dublinbikes-api/bikes/dublin_bikes/historical/stations.csv"
+					},
+					{
+						"name": "Destination",
+						"value": "landing/dublinbikes/year=2026/month=05/dublin_bikes_api.csv"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings",
+							"skipLineCount": 0
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_xjg",
+						"type": "DatasetReference",
+						"parameters": {
+							"StartDate": {
+								"value": "@pipeline().parameters.pStartDate",
+								"type": "Expression"
+							},
+							"EndDate": {
+								"value": "@pipeline().parameters.pEndDate",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_xjg",
+						"type": "DatasetReference",
+						"parameters": {
+							"StartDate": "@pipeline().parameters.pStartDate",
+							"EndDate": "@pipeline().parameters.pEndDate"
+						}
+					}
+				]
+			}
+		],
+		"parameters": {
+			"pStartDate": {
+				"type": "string",
+				"defaultValue": "2026-05-01"
+			},
+			"pEndDate": {
+				"type": "string",
+				"defaultValue": "2026-05-31"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2026-07-18T11:18:14Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

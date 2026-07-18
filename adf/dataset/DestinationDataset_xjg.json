@@ -1,0 +1,41 @@
+{
+	"name": "DestinationDataset_xjg",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"StartDate": {
+				"type": "string",
+				"defaultValue": "2026-05-01"
+			},
+			"EndDate": {
+				"type": "string",
+				"defaultValue": "2026-05-31"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@concat('dublin_bikes_',dataset().StartDate,'_to_',dataset().EndDate,'.csv')",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat(\n'dublinbikes/year=',\nsubstring(dataset().StartDate,0,4),\n'/month=',\nsubstring(dataset().StartDate,5,2)\n)",
+					"type": "Expression"
+				},
+				"fileSystem": "landing"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

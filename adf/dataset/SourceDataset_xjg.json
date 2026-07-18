@@ -1,0 +1,98 @@
+{
+	"name": "SourceDataset_xjg",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_HTTP_DublinBikes_API",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"StartDate": {
+				"type": "string",
+				"defaultValue": "2026-05-01"
+			},
+			"EndDate": {
+				"type": "string",
+				"defaultValue": "2026-05-31"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": {
+					"value": "@concat('dublinbikes-api/bikes/dublin_bikes/historical/stations.csv?dt_start=',dataset().StartDate,'&dt_end=',dataset().EndDate)",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"rowDelimiter": "\n",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "system_id",
+				"type": "String"
+			},
+			{
+				"name": "last_reported",
+				"type": "String"
+			},
+			{
+				"name": "station_id",
+				"type": "String"
+			},
+			{
+				"name": "num_bikes_available",
+				"type": "String"
+			},
+			{
+				"name": "num_docks_available",
+				"type": "String"
+			},
+			{
+				"name": "is_installed",
+				"type": "String"
+			},
+			{
+				"name": "is_renting",
+				"type": "String"
+			},
+			{
+				"name": "is_returning",
+				"type": "String"
+			},
+			{
+				"name": "name",
+				"type": "String"
+			},
+			{
+				"name": "short_name",
+				"type": "String"
+			},
+			{
+				"name": "address",
+				"type": "String"
+			},
+			{
+				"name": "lat",
+				"type": "String"
+			},
+			{
+				"name": "lon",
+				"type": "String"
+			},
+			{
+				"name": "region_id",
+				"type": "String"
+			},
+			{
+				"name": "capacity",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
