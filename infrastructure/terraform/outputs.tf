@@ -23,3 +23,11 @@ output "databricks_workspace_url" {
 output "databricks_access_connector_id" {
   value = azurerm_databricks_access_connector.urban_mobility.id
 }
+
+output "data_factory_name" {
+  value = azurerm_data_factory.urban_mobility.name
+}
+
+output "data_factory_id" {
+  value = azurerm_data_factory.urban_mobility.id
+}

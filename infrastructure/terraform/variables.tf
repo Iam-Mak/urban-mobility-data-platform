@@ -27,3 +27,18 @@ variable "databricks_access_connector_name" {
   description = "Azure Databricks Access Connector name"
   type        = string
 }
+
+variable "data_factory_name" {
+  description = "Azure Data Factory name"
+  type        = string
+}
+
+variable "landing_container_name" {
+  description = "Landing container for raw data"
+  type        = string
+}
+
+variable "managed_container_name" {
+  description = "Managed container for Unity Catalog"
+  type        = string
+}
