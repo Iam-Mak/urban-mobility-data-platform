@@ -6,7 +6,7 @@
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
-		"type": "Xml",
+		"type": "Binary",
 		"typeProperties": {
 			"location": {
 				"type": "HttpServerLocation",
