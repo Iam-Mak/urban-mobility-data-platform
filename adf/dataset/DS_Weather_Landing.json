@@ -1,0 +1,19 @@
+{
+	"name": "DS_Weather_Landing",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "forecast.xml",
+				"folderPath": "weather",
+				"fileSystem": "landing"
+			}
+		}
+	}
+}
