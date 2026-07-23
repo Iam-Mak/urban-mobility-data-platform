@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-dubmob-dev-002"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://dubmobdev002.dfs.core.windows.net/"
+		},
+		"LS_HTTP_DublinBikes_API_properties_typeProperties_url": {
+			"value": "https://data.smartdublin.ie"
+		},
+		"ls_smart_dublin_http_properties_typeProperties_url": {
+			"value": "https://data.smartdublin.ie"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
