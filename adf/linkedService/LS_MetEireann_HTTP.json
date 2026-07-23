@@ -1,0 +1,12 @@
+{
+	"name": "LS_MetEireann_HTTP",
+	"properties": {
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "http://openaccess.pf.api.met.ie",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
