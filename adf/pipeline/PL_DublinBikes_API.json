@@ -1,9 +1,9 @@
 {
-	"name": "Copy_Dublin_Bikes_API_To_Landing",
+	"name": "PL_DublinBikes_API",
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_API_To_Landing",
+				"name": "Copy_DublinBikes_To_Landing",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {

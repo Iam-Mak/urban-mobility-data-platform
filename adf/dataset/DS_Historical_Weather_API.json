@@ -1,16 +1,16 @@
 {
-	"name": "LS_OpenMeteo_HTTP",
+	"name": "DS_Historical_Weather_API",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_OpenMeteo_HTTP",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {
-			"startDate": {
+			"StartDate": {
 				"type": "string",
 				"defaultValue": "2026-05-01"
 			},
-			"endDate": {
+			"EndDate": {
 				"type": "string",
 				"defaultValue": "2026-05-31"
 			}
@@ -21,7 +21,7 @@
 			"location": {
 				"type": "HttpServerLocation",
 				"relativeUrl": {
-					"value": "@concat(\n'/v1/era5?latitude=53.3498',\n'&longitude=-6.2603',\n'&start_date=',dataset().startDate,\n'&end_date=',dataset().endDate,\n'&hourly=temperature_2m,precipitation,wind_speed_10m'\n)",
+					"value": "@concat(\n'/v1/era5?latitude=53.3498',\n'&longitude=-6.2603',\n'&start_date=',dataset().StartDate,\n'&end_date=',dataset().EndDate,\n'&hourly=temperature_2m,precipitation,wind_speed_10m'\n)",
 					"type": "Expression"
 				}
 			}

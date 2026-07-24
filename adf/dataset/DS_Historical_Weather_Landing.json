@@ -5,13 +5,27 @@
 			"referenceName": "AzureDataLakeStorage1",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"StartDate": {
+				"type": "string"
+			},
+			"EndDate": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "Json",
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "historical_weather_2026-05-01_to_2026-05-31.json",
-				"folderPath": "weather/year=2026/month=05",
+				"fileName": {
+					"value": "@concat(\n'historical_weather_',\ndataset().StartDate,\n'_to_',\ndataset().EndDate,\n'.json'\n)",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@concat(\n'weather/year=',\nsubstring(dataset().StartDate,0,4),\n'/month=',\nsubstring(dataset().StartDate,5,2)\n)",
+					"type": "Expression"
+				},
 				"fileSystem": "landing"
 			}
 		},

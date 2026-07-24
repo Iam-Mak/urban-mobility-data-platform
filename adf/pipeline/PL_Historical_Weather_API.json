@@ -38,27 +38,37 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "LS_OpenMeteo_HTTP",
+						"referenceName": "DS_Historical_Weather_API",
 						"type": "DatasetReference",
 						"parameters": {
-							"startDate": "2026-05-01",
-							"endDate": "2026-05-31"
+							"StartDate": {
+								"value": "@pipeline().parameters.pStartDate",
+								"type": "Expression"
+							},
+							"EndDate": {
+								"value": "@pipeline().parameters.pEndDate",
+								"type": "Expression"
+							}
 						}
 					}
 				],
 				"outputs": [
 					{
 						"referenceName": "DS_Historical_Weather_Landing",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"StartDate": "@pipeline().parameters.pStartDate",
+							"EndDate": "@pipeline().parameters.pEndDate"
+						}
 					}
 				]
 			}
 		],
 		"parameters": {
-			"startDate": {
+			"pStartDate": {
 				"type": "string"
 			},
-			"endDate": {
+			"pEndDate": {
 				"type": "string"
 			}
 		},
