@@ -1,5 +1,5 @@
 {
-	"name": "DestinationDataset_xjg",
+	"name": "DS_Dublin_Bikes_Landing",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureDataLakeStorage1",

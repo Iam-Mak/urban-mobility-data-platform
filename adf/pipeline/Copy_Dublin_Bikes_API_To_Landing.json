@@ -1,9 +1,9 @@
 {
-	"name": "Copy_DublinBikes_API_To_Landing",
+	"name": "Copy_Dublin_Bikes_API_To_Landing",
 	"properties": {
 		"activities": [
 			{
-				"name": "PL_DublinBikes_API",
+				"name": "Copy_API_To_Landing",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -58,7 +58,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SourceDataset_xjg",
+						"referenceName": "DS_Dublin_Bikes_API",
 						"type": "DatasetReference",
 						"parameters": {
 							"StartDate": {
@@ -74,7 +74,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DestinationDataset_xjg",
+						"referenceName": "DS_Dublin_Bikes_Landing",
 						"type": "DatasetReference",
 						"parameters": {
 							"StartDate": "@pipeline().parameters.pStartDate",
