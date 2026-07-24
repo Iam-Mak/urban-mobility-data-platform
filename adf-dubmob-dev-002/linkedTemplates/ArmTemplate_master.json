@@ -19,9 +19,9 @@
 			"type": "string",
 			"defaultValue": "https://data.smartdublin.ie"
 		},
-		"ls_smart_dublin_http_properties_typeProperties_url": {
+		"LS_MetEireann_HTTP_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://data.smartdublin.ie"
+			"defaultValue": "http://openaccess.pf.api.met.ie"
 		},
 		"containerUri": {
 			"type": "string",
@@ -59,8 +59,8 @@
 					"LS_HTTP_DublinBikes_API_properties_typeProperties_url": {
 						"value": "[parameters('LS_HTTP_DublinBikes_API_properties_typeProperties_url')]"
 					},
-					"ls_smart_dublin_http_properties_typeProperties_url": {
-						"value": "[parameters('ls_smart_dublin_http_properties_typeProperties_url')]"
+					"LS_MetEireann_HTTP_properties_typeProperties_url": {
+						"value": "[parameters('LS_MetEireann_HTTP_properties_typeProperties_url')]"
 					}
 				}
 			},

@@ -19,9 +19,9 @@
 			"type": "string",
 			"defaultValue": "https://data.smartdublin.ie"
 		},
-		"ls_smart_dublin_http_properties_typeProperties_url": {
+		"LS_MetEireann_HTTP_properties_typeProperties_url": {
 			"type": "string",
-			"defaultValue": "https://data.smartdublin.ie"
+			"defaultValue": "http://openaccess.pf.api.met.ie"
 		}
 	},
 	"variables": {
@@ -29,13 +29,13 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/Copy_DublinBikes_API_To_Landing')]",
+			"name": "[concat(parameters('factoryName'), '/Copy_Dublin_Bikes_API_To_Landing')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "PL_DublinBikes_API",
+						"name": "Copy_API_To_Landing",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -90,7 +90,7 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "SourceDataset_xjg",
+								"referenceName": "DS_Dublin_Bikes_API",
 								"type": "DatasetReference",
 								"parameters": {
 									"StartDate": {
@@ -106,7 +106,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "DestinationDataset_xjg",
+								"referenceName": "DS_Dublin_Bikes_Landing",
 								"type": "DatasetReference",
 								"parameters": {
 									"StartDate": "@pipeline().parameters.pStartDate",
@@ -133,57 +133,12 @@
 				"lastPublishTime": "2026-07-18T11:18:14Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceDataset_xjg')]",
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_xjg')]"
+				"[concat(variables('factoryId'), '/datasets/DS_Dublin_Bikes_API')]",
+				"[concat(variables('factoryId'), '/datasets/DS_Dublin_Bikes_Landing')]"
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DestinationDataset_xjg')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"StartDate": {
-						"type": "string",
-						"defaultValue": "2026-05-01"
-					},
-					"EndDate": {
-						"type": "string",
-						"defaultValue": "2026-05-31"
-					}
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": {
-							"value": "@concat('dublin_bikes_',dataset().StartDate,'_to_',dataset().EndDate,'.csv')",
-							"type": "Expression"
-						},
-						"folderPath": {
-							"value": "@concat(\n'dublinbikes/year=',\nsubstring(dataset().StartDate,0,4),\n'/month=',\nsubstring(dataset().StartDate,5,2)\n)",
-							"type": "Expression"
-						},
-						"fileSystem": "landing"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SourceDataset_xjg')]",
+			"name": "[concat(parameters('factoryName'), '/DS_Dublin_Bikes_API')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -285,6 +240,51 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DS_Dublin_Bikes_Landing')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"StartDate": {
+						"type": "string",
+						"defaultValue": "2026-05-01"
+					},
+					"EndDate": {
+						"type": "string",
+						"defaultValue": "2026-05-31"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@concat('dublin_bikes_',dataset().StartDate,'_to_',dataset().EndDate,'.csv')",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@concat(\n'dublinbikes/year=',\nsubstring(dataset().StartDate,0,4),\n'/month=',\nsubstring(dataset().StartDate,5,2)\n)",
+							"type": "Expression"
+						},
+						"fileSystem": "landing"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/AzureDataLakeStorage1')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -317,14 +317,14 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ls_smart_dublin_http')]",
+			"name": "[concat(parameters('factoryName'), '/LS_MetEireann_HTTP')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"annotations": [],
 				"type": "HttpServer",
 				"typeProperties": {
-					"url": "[parameters('ls_smart_dublin_http_properties_typeProperties_url')]",
+					"url": "[parameters('LS_MetEireann_HTTP_properties_typeProperties_url')]",
 					"enableServerCertificateValidation": true,
 					"authenticationType": "Anonymous"
 				}
