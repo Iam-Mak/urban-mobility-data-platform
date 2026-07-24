@@ -1,0 +1,31 @@
+{
+	"name": "LS_OpenMeteo_HTTP",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_OpenMeteo_HTTP",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"startDate": {
+				"type": "string",
+				"defaultValue": "2026-05-01"
+			},
+			"endDate": {
+				"type": "string",
+				"defaultValue": "2026-05-31"
+			}
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": {
+					"value": "@concat(\n'/v1/era5?latitude=53.3498',\n'&longitude=-6.2603',\n'&start_date=',dataset().startDate,\n'&end_date=',dataset().endDate,\n'&hourly=temperature_2m,precipitation,wind_speed_10m'\n)",
+					"type": "Expression"
+				}
+			}
+		},
+		"schema": {}
+	}
+}
