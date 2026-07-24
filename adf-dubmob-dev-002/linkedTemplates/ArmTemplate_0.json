@@ -223,32 +223,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_Historical_Weather_Landing')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage1",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Json",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "historical_weather_2026-05-01_to_2026-05-31.json",
-						"folderPath": "weather/year=2026/month=05",
-						"fileSystem": "landing"
-					}
-				},
-				"schema": {}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/LS_OpenMeteo_HTTP')]",
+			"name": "[concat(parameters('factoryName'), '/DS_Historical_Weather_API')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -257,11 +232,11 @@
 					"type": "LinkedServiceReference"
 				},
 				"parameters": {
-					"startDate": {
+					"StartDate": {
 						"type": "string",
 						"defaultValue": "2026-05-01"
 					},
-					"endDate": {
+					"EndDate": {
 						"type": "string",
 						"defaultValue": "2026-05-31"
 					}
@@ -272,7 +247,7 @@
 					"location": {
 						"type": "HttpServerLocation",
 						"relativeUrl": {
-							"value": "@concat(\n'/v1/era5?latitude=53.3498',\n'&longitude=-6.2603',\n'&start_date=',dataset().startDate,\n'&end_date=',dataset().endDate,\n'&hourly=temperature_2m,precipitation,wind_speed_10m'\n)",
+							"value": "@concat(\n'/v1/era5?latitude=53.3498',\n'&longitude=-6.2603',\n'&start_date=',dataset().StartDate,\n'&end_date=',dataset().EndDate,\n'&hourly=temperature_2m,precipitation,wind_speed_10m'\n)",
 							"type": "Expression"
 						}
 					}
@@ -284,13 +259,52 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/Copy_Dublin_Bikes_API_To_Landing')]",
+			"name": "[concat(parameters('factoryName'), '/DS_Historical_Weather_Landing')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "AzureDataLakeStorage1",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"StartDate": {
+						"type": "string"
+					},
+					"EndDate": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": {
+							"value": "@concat(\n'historical_weather_',\ndataset().StartDate,\n'_to_',\ndataset().EndDate,\n'.json'\n)",
+							"type": "Expression"
+						},
+						"folderPath": {
+							"value": "@concat(\n'weather/year=',\nsubstring(dataset().StartDate,0,4),\n'/month=',\nsubstring(dataset().StartDate,5,2)\n)",
+							"type": "Expression"
+						},
+						"fileSystem": "landing"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDataLakeStorage1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/PL_DublinBikes_API')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Copy_API_To_Landing",
+						"name": "Copy_DublinBikes_To_Landing",
 						"type": "Copy",
 						"dependsOn": [],
 						"policy": {
@@ -434,11 +448,17 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "LS_OpenMeteo_HTTP",
+								"referenceName": "DS_Historical_Weather_API",
 								"type": "DatasetReference",
 								"parameters": {
-									"startDate": "2026-05-01",
-									"endDate": "2026-05-31"
+									"StartDate": {
+										"value": "@pipeline().parameters.pStartDate",
+										"type": "Expression"
+									},
+									"EndDate": {
+										"value": "@pipeline().parameters.pEndDate",
+										"type": "Expression"
+									}
 								}
 							}
 						],
@@ -446,7 +466,10 @@
 							{
 								"referenceName": "DS_Historical_Weather_Landing",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"StartDate": "@pipeline().parameters.pStartDate",
+									"EndDate": "@pipeline().parameters.pEndDate"
+								}
 							}
 						]
 					}
@@ -455,17 +478,17 @@
 					"elapsedTimeMetric": {}
 				},
 				"parameters": {
-					"startDate": {
+					"pStartDate": {
 						"type": "string"
 					},
-					"endDate": {
+					"pEndDate": {
 						"type": "string"
 					}
 				},
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/LS_OpenMeteo_HTTP')]",
+				"[concat(variables('factoryId'), '/datasets/DS_Historical_Weather_API')]",
 				"[concat(variables('factoryId'), '/datasets/DS_Historical_Weather_Landing')]"
 			]
 		}
