@@ -14,8 +14,8 @@
 		"LS_HTTP_DublinBikes_API_properties_typeProperties_url": {
 			"value": "https://data.smartdublin.ie"
 		},
-		"LS_MetEireann_HTTP_properties_typeProperties_url": {
-			"value": "http://openaccess.pf.api.met.ie"
+		"LS_OpenMeteo_HTTP_properties_typeProperties_url": {
+			"value": "https://archive-api.open-meteo.com"
 		},
 		"containerUri": {
 			"value": ""
